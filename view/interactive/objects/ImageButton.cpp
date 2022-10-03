@@ -25,6 +25,12 @@ namespace Console
 			y -= _image.GetHeight() / 2;
 		}
 
+		if (selected)
+		{
+			background = _background;
+			foreground = _foreground;
+		}
+
 		for (const std::string& row : _image.GetImage())
 		{
 			screen.Draw(Text{ .Str = row, .X = x, .Y = y, .XCentered = _xCentered, .Background = background, .Foreground = foreground });

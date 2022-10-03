@@ -36,6 +36,9 @@ namespace Console
 		void IncrementCurrentButton() { _currentButton++; }
 		void DecrementCurrentButton() { _currentButton--; }
 		int GetCurrentButton() const { return _currentButton; }
+		void RemoveComponent(const int index) { _components.erase(_components.begin() + index); }
+		template<class T>
+		T GetComponent(const int index) const { return dynamic_cast<T>(_components[index]); }
 
 		static std::function<int(Screen)> GetMiddleScreen() { return [=](const Screen& screen) { return screen.GetWidth() / 2; }; }
 		static std::function<int(Screen)> GetPartialScreen(const int part) { return [=](const Screen& screen) { return screen.GetWidth() * part / 4; }; }
