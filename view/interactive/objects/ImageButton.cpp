@@ -13,7 +13,7 @@ namespace Console
 		_foreground = foreground;
 	}
 
-	void ImageButton::Draw(Screen& screen, bool selected)
+	void ImageButton::Draw(Controller* controller, Screen& screen, bool selected)
 	{
 		auto background = Background::NONE;
 		auto foreground = Foreground::NONE;

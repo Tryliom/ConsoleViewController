@@ -15,7 +15,7 @@ namespace Console
 		ImageButton(std::function<int(Screen)> getX, std::function<int(Screen)> getY, const Image& image, const std::function<void()>& onClick, const bool xCentered = false, const bool yCentered = false,
 					Background background = Background::NONE, Foreground foreground = Foreground::NONE);
 
-		void Draw(Screen& screen, bool selected) override;
+		void Draw(Controller* controller, Screen& screen, bool selected) override;
 		void OnKeyPress(Controller* controller, const char key) override;
 	};
 }

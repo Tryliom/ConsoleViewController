@@ -10,7 +10,7 @@ namespace Console
 		_onClick = onClick;
 	}
 
-	void BasicButton::Draw(Screen& screen, const bool selected)
+	void BasicButton::Draw(Controller* controller, Screen& screen, const bool selected)
 	{
 		auto background = _background;
 		auto foreground = _foreground;

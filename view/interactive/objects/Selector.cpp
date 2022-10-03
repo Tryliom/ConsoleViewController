@@ -10,7 +10,7 @@ namespace Console
 		_setValue = setValue;
 	}
 
-	void Selector::Draw(Screen& screen, const bool selected)
+	void Selector::Draw(Controller* controller, Screen& screen, const bool selected)
 	{
 		Background background = _background;
 		Foreground foreground = _foreground;

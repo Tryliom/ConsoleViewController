@@ -11,7 +11,7 @@ namespace Console
 	{
 		for (const auto& component : _components)
 		{
-			component->Draw(screen, component == _components[_currentButton]);
+			component->Draw(controller, screen, component == _components[_currentButton]);
 		}
 	}
 

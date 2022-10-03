@@ -11,7 +11,7 @@ Console::BasicField::BasicField(const std::function<int(Screen)> getX, const std
 	_showCursor = showCursor;
 }
 
-void Console::BasicField::Draw(Screen& screen, const bool selected)
+void Console::BasicField::Draw(Controller* controller, Screen& screen, const bool selected)
 {
 	auto background = _background;
 	auto foreground = _foreground;
