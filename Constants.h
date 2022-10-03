@@ -13,6 +13,9 @@ namespace Console
 		MAGENTA = 35,
 		CYAN = 36,
 		WHITE = 37,
+		ULTRA_WHITE = 97,
+		DARK_GRAY = 90,
+		LIGHT_MAGENTA = 95,
 	};
 
 	enum class Background
@@ -26,6 +29,9 @@ namespace Console
 		MAGENTA = 45,
 		CYAN = 46,
 		WHITE = 47,
+		ULTRA_WHITE = 107,
+		DARK_GRAY = 100,
+		LIGHT_MAGENTA = 105,
 	};
 
 	struct Key
