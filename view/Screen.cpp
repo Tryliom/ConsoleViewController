@@ -170,7 +170,7 @@ namespace Console
 
 	void Screen::Draw(PixelColor pixelColor)
 	{
-		if (pixelColor.X >= 0 && pixelColor.X < _width && pixelColor.Y >= 0 && pixelColor.Y < _height)
+		if (pixelColor.X >= 0 && pixelColor.X < WIDTH_PIXEL && pixelColor.Y >= 0 && pixelColor.Y < HEIGHT_PIXEL)
 		{
 			_pixelColors.emplace_back(pixelColor);
 		}
