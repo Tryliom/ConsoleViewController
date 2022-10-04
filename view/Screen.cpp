@@ -41,6 +41,7 @@ namespace Console
 		this->_width = csbi.srWindow.Right - csbi.srWindow.Left + 1;
 		this->_cache = this->_screen;
 		this->_screen = {};
+		this->_pixelColors = {};
 
 		HEIGHT = this->_height;
 		WIDTH = this->_width;
@@ -99,6 +100,14 @@ namespace Console
 			}
 		}
 
+		HWND myconsole = GetConsoleWindow();
+		HDC mydc = GetDC(myconsole);
+
+		for (const PixelColor pixel : _pixelColors)
+		{
+			SetPixel(mydc, pixel.X, pixel.Y, pixel.Color);
+		}
+
 		if (_cursorX != -1 && _cursorY != -1)
 		{
 			// Show the cursor
@@ -154,6 +163,14 @@ namespace Console
 			}
 			// Draw the character at the specified position with the specified color if any
 			this->_screen[text.Y][text.X + i] = preColor + text.Str[i] + postColor;
+		}
+	}
+
+	void Screen::Draw(PixelColor pixelColor)
+	{
+		if (pixelColor.X >= 0 && pixelColor.X < _width && pixelColor.Y >= 0 && pixelColor.Y < _height)
+		{
+			_pixelColors.emplace_back(pixelColor);
 		}
 	}
 

@@ -4,6 +4,7 @@
 
 #include <string>
 #include <vector>
+#include <windows.h>
 
 namespace Console
 {
@@ -24,12 +25,20 @@ namespace Console
 		Foreground Foreground{ Foreground::NONE };
 	};
 
+	struct PixelColor
+	{
+		int X;
+		int Y;
+		COLORREF Color;
+	};
+
 	class Screen
 	{
 	private:
 		std::vector<std::vector<std::string>> _screen;
 		// The cache of the previous screen
 		std::vector<std::vector<std::string>> _cache;
+		std::vector<PixelColor> _pixelColors;
 		int _height;
 		int _width;
 		// The cursor position on the screen if it is displayed
@@ -59,6 +68,8 @@ namespace Console
 		 * \param text The text to draw
 		 */
 		void Draw(Text text);
+
+		void Draw(PixelColor pixelColor);
 		/**
 		 * \brief Set windows size
 		 * \param width The width of the window as pixel
