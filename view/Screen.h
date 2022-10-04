@@ -70,8 +70,18 @@ namespace Console
 		 * \param text The text to draw
 		 */
 		void Draw(Text text);
-
+		/**
+		 * \brief Draw a pixel of a color on the screen
+		 * \param pixelColor The pixel to draw
+		 */
 		void Draw(PixelColor pixelColor);
+
+		void DrawRect(int x, int y, int width, int height, COLORREF color);
+
+		void DrawCircle(int x, int y, int radius, COLORREF color);
+
+		void DrawLine(int x1, int y1, int x2, int y2, int width, COLORREF color);
+
 		/**
 		 * \brief Set windows size
 		 * \param width The width of the window as pixel

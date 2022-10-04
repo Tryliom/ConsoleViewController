@@ -2,7 +2,7 @@
 
 namespace Console
 {
-	ImageButton::ImageButton(Position x, Position y, const Image& image, const std::function<void()>& onClick, const bool xCentered,
+	ImageButton::ImageButton(PositionX x, PositionY y, const Image& image, const std::function<void()>& onClick, const bool xCentered,
 							const bool yCentered, const Background background, const Foreground foreground) :
 		InteractiveObject(x, y, xCentered)
 	{
@@ -17,8 +17,8 @@ namespace Console
 	{
 		auto background = Background::NONE;
 		auto foreground = Foreground::NONE;
-		int y = _y.GetValue(false);
-		int x = _x.GetValue(true);
+		int y = _y.GetValue();
+		int x = _x.GetValue();
 
 		if (_yCentered)
 		{

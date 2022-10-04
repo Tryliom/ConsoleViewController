@@ -13,8 +13,8 @@ namespace Console
 	class InteractiveObject
 	{
 	protected:
-		Position _x;
-		Position _y;
+		PositionX _x;
+		PositionY _y;
 		bool _xCentered{ false };
 		Background _background{ Background::NONE };
 		Foreground _foreground{ Foreground::NONE };
@@ -22,7 +22,7 @@ namespace Console
 		Foreground _selectedForeground{ Foreground::BLACK };
 
 	public:
-		InteractiveObject(Position x, Position y, bool xCentered = false);
+		InteractiveObject(PositionX x, PositionY y, bool xCentered = false);
 
 		virtual void Draw(Controller* controller, Screen& screen, bool selected) = 0;
 		virtual void OnKeyPress(Controller* controller, const char key) = 0;

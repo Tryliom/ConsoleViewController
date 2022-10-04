@@ -35,18 +35,32 @@ namespace Console
 	{
 		// Set the height and width according to the console window
 		const HANDLE output = GetStdHandle(STD_OUTPUT_HANDLE);
+		const HWND console = GetConsoleWindow();
+		RECT r;
+		GetWindowRect(console, &r);
 		CONSOLE_SCREEN_BUFFER_INFO csbi;
 		GetConsoleScreenBufferInfo(output, &csbi);
 		this->_height = csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
 		this->_width = csbi.srWindow.Right - csbi.srWindow.Left + 1;
 		this->_cache = this->_screen;
 		this->_screen = {};
-		this->_pixelColors = {};
+
+		// Change all pixels to the background color (black) and remove the old ones
+		for (PixelColor& pixelColor : this->_pixelColors)
+		{
+			if (pixelColor.Color == RGB(0, 0, 0))
+			{
+				this->_pixelColors.erase(this->_pixelColors.begin());
+			} else
+			{
+				pixelColor.Color = RGB(0, 0, 0);
+			}
+		}
 
 		HEIGHT = this->_height;
 		WIDTH = this->_width;
-		HEIGHT_PIXEL = this->_height * 16;
-		WIDTH_PIXEL = this->_width * 8;
+		HEIGHT_PIXEL = r.bottom - r.top;
+		WIDTH_PIXEL = r.right - r.left;
 
 		// Hide the cursor
 		setCursorVisibility(false);
@@ -173,6 +187,70 @@ namespace Console
 		if (pixelColor.X >= 0 && pixelColor.X < WIDTH_PIXEL && pixelColor.Y >= 0 && pixelColor.Y < HEIGHT_PIXEL)
 		{
 			_pixelColors.emplace_back(pixelColor);
+		}
+	}
+
+	void Screen::DrawRect(int x, int y, int width, int height, COLORREF color)
+	{
+		const int startX = x - width / 2;
+		const int startY = y - height / 2;
+
+		for (int h = 0; h < height; h++)
+		{
+			for (int w = 0; w < width; w++)
+			{
+				Draw(PixelColor(startX + w, startY + h, color));
+			}
+		}
+	}
+
+	void Screen::DrawCircle(int x, int y, int radius, COLORREF color)
+	{
+		const int startX = x - radius;
+		const int startY = y - radius;
+
+		for (int h = 0; h < radius * 2; h++)
+		{
+			for (int w = 0; w < radius * 2; w++)
+			{
+				if (sqrt(pow(h - radius, 2) + pow(w - radius, 2)) <= radius)
+				{
+					Draw(PixelColor(startX + w, startY + h, color));
+				}
+			}
+		}
+	}
+
+	void Screen::DrawLine(int x1, int y1, int x2, int y2, int width, COLORREF color)
+	{
+		const int dx = abs(x2 - x1);
+		const int sx = x1 < x2 ? 1 : -1;
+		const int dy = -abs(y2 - y1);
+		const int sy = y1 < y2 ? 1 : -1;
+		int err = dx + dy;
+
+		while (true)
+		{
+			DrawRect(x1, y1, width, width, color);
+
+			if (x1 == x2 && y1 == y2)
+			{
+				break;
+			}
+
+			const int e2 = 2 * err;
+
+			if (e2 >= dy)
+			{
+				err += dy;
+				x1 += sx;
+			}
+
+			if (e2 <= dx)
+			{
+				err += dx;
+				y1 += sy;
+			}
 		}
 	}
 

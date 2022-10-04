@@ -8,7 +8,7 @@ std::string Console::IntField::GetStr() const
 	return "<" + _str + ">";
 }
 
-Console::IntField::IntField(Position x, Position y, const std::function<int()>& getValue,
+Console::IntField::IntField(PositionX x, PositionY y, const std::function<int()>& getValue,
                             const std::function<void(int)>& setValue, const bool xCentered, const bool enableLeftRightArrow) :
 	BasicField(x, y, 
 		[getValue]() { return std::to_string(getValue()); }, 
@@ -17,10 +17,7 @@ Console::IntField::IntField(Position x, Position y, const std::function<int()>& 
 			try
 			{
 				const int value = std::stoi(str);
-				if (value < std::numeric_limits<int>::max() && value > std::numeric_limits<int>::min())
-				{
-					setValue(value);
-				}
+				setValue(value);
 			}
 			catch (std::exception)
 			{

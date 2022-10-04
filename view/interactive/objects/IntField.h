@@ -11,7 +11,7 @@ namespace Console
 		std::string GetStr() const override;
 		void onBackspace() override;
 	public:
-		IntField(Position x, Position y, const std::function<int()>& getValue, const std::function<void(int)>& setValue, bool xCentered = false, bool enableLeftRightArrow = true);
+		IntField(PositionX x, PositionY y, const std::function<int()>& getValue, const std::function<void(int)>& setValue, bool xCentered = false, bool enableLeftRightArrow = true);
 
 		void OnKeyPress(Controller* controller, char key) override;
 	};

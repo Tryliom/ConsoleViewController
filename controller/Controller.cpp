@@ -117,5 +117,11 @@ namespace Console
 		// Set the new view as the current view
 		this->_view = view;
 	}
+
+	void Controller::SetView(View* view)
+	{
+		// Set the new view as the current view
+		this->_view = view;
+	}
 }
 

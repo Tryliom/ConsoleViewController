@@ -2,7 +2,7 @@
 
 namespace Console
 {
-	Selector::Selector(Position x, Position y, const std::vector<std::string>& options,
+	Selector::Selector(PositionX x, PositionY y, const std::vector<std::string>& options,
 	                   const std::function<void(int)>& setValue, const bool xCentered) :
 		InteractiveObject(x, y, xCentered)
 	{
@@ -21,8 +21,8 @@ namespace Console
 			foreground = _selectedForeground;
 		}
 
-		int x = _x.GetValue(true);
-		int y = _y.GetValue(false);
+		int x = _x.GetValue();
+		int y = _y.GetValue();
 		for (int i = 0; i < static_cast<int>(_options.size()); i++)
 		{
 			if (i == _selected)

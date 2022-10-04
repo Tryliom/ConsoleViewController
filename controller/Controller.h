@@ -22,15 +22,6 @@ namespace Console
 		// The previous views
 		std::stack<View*> _views;
 
-		/**
-		 * \brief Used to draw things on the screen before rendering
-		 */
-		virtual void update();
-		/**
-		 * \brief Called when a key is pressed
-		 * \param key The key pressed
-		 */
-		virtual void onKeyPressed(char key);
 	private:
 		/**
 		 * \brief Refresh screen rendering
@@ -40,6 +31,15 @@ namespace Console
 		 * \brief Start a thread to update the screen
 		 */
 		void startRenderingThread();
+		/**
+		 * \brief Used to draw things on the screen before rendering
+		 */
+		void update();
+		/**
+		 * \brief Called when a key is pressed
+		 * \param key The key pressed
+		 */
+		void onKeyPressed(char key);
 	public:
 		int CurrentFPS{ 0 };
 		int Tick{ 0 };
@@ -52,6 +52,11 @@ namespace Console
 		 * \param view The new view
 		 */
 		void ChangeView(View* view);
+		/**
+		 * \brief Set a new view without pushing the current view to the stack
+		 * \param view The new view
+		 */
+		void SetView(View* view);
 		/**
 		 * \brief Go back to previous view
 		 */

@@ -2,7 +2,7 @@
 
 namespace Console
 {
-	BasicButton::BasicButton(const std::string& str, Position x, Position y, const std::function<void(Controller* controller)>& onClick, const bool xCentered, const bool yCentered) :
+	BasicButton::BasicButton(const std::string& str, PositionX x, PositionY y, const std::function<void(Controller* controller)>& onClick, const bool xCentered, const bool yCentered) :
 		InteractiveObject(x, y, xCentered)
 	{
 		_str = str;
@@ -14,8 +14,8 @@ namespace Console
 	{
 		auto background = _background;
 		auto foreground = _foreground;
-		int y = _y.GetValue(false);
-		int x = _x.GetValue(true);
+		int y = _y.GetValue();
+		int x = _x.GetValue();
 
 		if (selected)
 		{
