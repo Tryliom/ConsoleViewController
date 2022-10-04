@@ -54,6 +54,8 @@ namespace Console
 
 		inline static int HEIGHT = 0;
 		inline static int WIDTH = 0;
+		inline static int HEIGHT_PIXEL = 0;
+		inline static int WIDTH_PIXEL = 0;
 
 		/**
 		 * \brief Clear the screen and prepare it for a new display
