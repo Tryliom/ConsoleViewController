@@ -1,7 +1,7 @@
 #include "InteractiveObject.h"
 
 namespace Console {
-	InteractiveObject::InteractiveObject(Position x, Position y, const bool xCentered)
+	InteractiveObject::InteractiveObject(const PositionX x, const PositionY y, const bool xCentered)
 	{
 		_x = x;
 		_y = y;

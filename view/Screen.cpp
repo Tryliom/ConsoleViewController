@@ -48,12 +48,12 @@ namespace Console
 		// Change all pixels to the background color (black) and remove the old ones
 		for (PixelColor& pixelColor : this->_pixelColors)
 		{
-			if (pixelColor.Color == RGB(0, 0, 0))
+			if (pixelColor.Color == RGB(12, 12, 12))
 			{
 				this->_pixelColors.erase(this->_pixelColors.begin());
 			} else
 			{
-				pixelColor.Color = RGB(0, 0, 0);
+				pixelColor.Color = RGB(12, 12, 12);
 			}
 		}
 
