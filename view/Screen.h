@@ -30,6 +30,13 @@ namespace Console
 		int X;
 		int Y;
 		COLORREF Color;
+
+		PixelColor(int x, int y, COLORREF color)
+		{
+			X = x;
+			Y = y;
+			Color = color;
+		}
 	};
 
 	class Screen
@@ -38,7 +45,8 @@ namespace Console
 		std::vector<std::vector<std::string>> _screen;
 		// The cache of the previous screen
 		std::vector<std::vector<std::string>> _cache;
-		std::vector<PixelColor> _pixelColors;
+		std::vector<PixelColor*> _pixelColors;
+		std::vector<PixelColor*> _pixelColorsCache;
 		int _height;
 		int _width;
 		// The cursor position on the screen if it is displayed
@@ -64,7 +72,7 @@ namespace Console
 		/**
 		 * \brief Render the screen
 		 */
-		void Render() const;
+		void Render();
 		/**
 		 * \brief Draw a text on the screen
 		 * \param text The text to draw
@@ -74,7 +82,7 @@ namespace Console
 		 * \brief Draw a pixel of a color on the screen
 		 * \param pixelColor The pixel to draw
 		 */
-		void Draw(PixelColor pixelColor);
+		void Draw(PixelColor* pixelColor);
 
 		void DrawRect(int x, int y, int width, int height, COLORREF color);
 

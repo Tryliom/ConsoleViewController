@@ -44,16 +44,15 @@ namespace Console
 		this->_width = csbi.srWindow.Right - csbi.srWindow.Left + 1;
 		this->_cache = this->_screen;
 		this->_screen = {};
-
-		// Change all pixels to the background color (black) and remove the old ones
-		for (PixelColor& pixelColor : this->_pixelColors)
+		this->_pixelColorsCache = this->_pixelColors;
+		this->_pixelColors = {};
+		
+		for (PixelColor* pixel : _pixelColorsCache)
 		{
-			if (pixelColor.Color == RGB(12, 12, 12))
+			if (pixel->Color == RGB(12, 12, 12))
 			{
-				this->_pixelColors.erase(this->_pixelColors.begin());
-			} else
-			{
-				pixelColor.Color = RGB(12, 12, 12);
+				// Remove pixel from cache
+				_pixelColorsCache.erase(std::remove(_pixelColorsCache.begin(), _pixelColorsCache.end(), pixel), _pixelColorsCache.end());
 			}
 		}
 
@@ -100,7 +99,7 @@ namespace Console
 		_cursorY = -1;
 	}
 
-	void Screen::Render() const
+	void Screen::Render()
 	{
 		// Display every lines of the screen
 		for (int h = 0; h < _height; h++)
@@ -119,9 +118,28 @@ namespace Console
 		HWND myconsole = GetConsoleWindow();
 		HDC mydc = GetDC(myconsole);
 
-		for (const PixelColor pixel : _pixelColors)
+		for (PixelColor* pixel : _pixelColorsCache)
 		{
-			SetPixel(mydc, pixel.X, pixel.Y, pixel.Color);
+			bool found = false;
+
+			for (const PixelColor* pixel2 : _pixelColors)
+			{
+				if (pixel->X == pixel2->X && pixel->Y == pixel2->Y)
+				{
+					found = true;
+					break;
+				}
+			}
+
+			if (!found)
+			{
+				_pixelColors.emplace_back(new PixelColor(pixel->X, pixel->Y, RGB(12, 12, 12)));
+			}
+		}
+
+		for (const PixelColor* pixel : _pixelColors)
+		{
+			SetPixel(mydc, pixel->X, pixel->Y, pixel->Color);
 		}
 
 		if (_cursorX != -1 && _cursorY != -1)
@@ -182,9 +200,9 @@ namespace Console
 		}
 	}
 
-	void Screen::Draw(PixelColor pixelColor)
+	void Screen::Draw(PixelColor* pixelColor)
 	{
-		if (pixelColor.X >= 0 && pixelColor.X < WIDTH_PIXEL && pixelColor.Y >= 0 && pixelColor.Y < HEIGHT_PIXEL)
+		if (pixelColor->X >= 0 && pixelColor->X < WIDTH_PIXEL && pixelColor->Y >= 0 && pixelColor->Y < HEIGHT_PIXEL)
 		{
 			_pixelColors.emplace_back(pixelColor);
 		}
@@ -199,7 +217,7 @@ namespace Console
 		{
 			for (int w = 0; w < width; w++)
 			{
-				Draw(PixelColor(startX + w, startY + h, color));
+				Draw(new PixelColor(startX + w, startY + h, color));
 			}
 		}
 	}
@@ -215,7 +233,7 @@ namespace Console
 			{
 				if (sqrt(pow(h - radius, 2) + pow(w - radius, 2)) <= radius)
 				{
-					Draw(PixelColor(startX + w, startY + h, color));
+					Draw(new PixelColor(startX + w, startY + h, color));
 				}
 			}
 		}
