@@ -42,6 +42,9 @@ namespace Console
 		this->_cache = this->_screen;
 		this->_screen = {};
 
+		HEIGHT = this->_height;
+		WIDTH = this->_width;
+
 		// Hide the cursor
 		setCursorVisibility(false);
 

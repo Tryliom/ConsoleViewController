@@ -8,9 +8,9 @@ std::string Console::IntField::GetStr() const
 	return "<" + _str + ">";
 }
 
-Console::IntField::IntField(std::function<int(Screen)> getX, std::function<int(Screen)> getY, const std::function<int()>& getValue,
+Console::IntField::IntField(Position x, Position y, const std::function<int()>& getValue,
                             const std::function<void(int)>& setValue, const bool xCentered, const bool enableLeftRightArrow) :
-	BasicField(std::move(getX), std::move(getY), 
+	BasicField(x, y, 
 		[getValue]() { return std::to_string(getValue()); }, 
 		[setValue, this](const std::string& str)
 		{

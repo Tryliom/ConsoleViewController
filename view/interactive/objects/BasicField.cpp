@@ -1,8 +1,8 @@
 #include "BasicField.h"
 
-Console::BasicField::BasicField(const std::function<int(Screen)> getX, const std::function<int(Screen)> getY, const std::function<std::string()>& getValue,
+Console::BasicField::BasicField(Position x, Position y, const std::function<std::string()>& getValue,
                                 const std::function<void(std::string)>& setValue, const std::function<bool(char key)>& condition, const bool xCentered, const bool showCursor) :
-	InteractiveObject(getX, getY, xCentered)
+	InteractiveObject(x, y, xCentered)
 {
 	_getValue = getValue;
 	_setValue = setValue;
@@ -15,8 +15,8 @@ void Console::BasicField::Draw(Controller* controller, Screen& screen, const boo
 {
 	auto background = _background;
 	auto foreground = _foreground;
-	int x = _getX(screen);
-	int y = _getY(screen);
+	int x = _x.GetValue(true);
+	int y = _y.GetValue(false);
 
 	if (selected)
 	{

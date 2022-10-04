@@ -43,6 +43,9 @@ namespace Console
 		int GetHeight() const { return this->_height; }
 		int GetWidth() const { return this->_width; }
 
+		inline static int HEIGHT = 0;
+		inline static int WIDTH = 0;
+
 		/**
 		 * \brief Clear the screen and prepare it for a new display
 		 */

@@ -15,7 +15,7 @@ namespace Console
 		std::string _columnBorder{ "|" };
 
 	public:
-		BasicButton(const std::string& str, std::function<int(Screen)> getX, std::function<int(Screen)> getY, const std::function<void(Controller* controller)>& onClick, bool xCentered = false, bool yCentered = false);
+		BasicButton(const std::string& str, Position x, Position y, const std::function<void(Controller* controller)>& onClick, bool xCentered = false, bool yCentered = false);
 		
 		void Draw(Controller* controller, Screen& screen, bool selected) override;
 		void OnKeyPress(Controller* controller, char key) override;

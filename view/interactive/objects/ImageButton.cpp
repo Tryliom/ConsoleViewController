@@ -2,9 +2,9 @@
 
 namespace Console
 {
-	ImageButton::ImageButton(std::function<int(Screen)> getX, std::function<int(Screen)> getY, const Image& image, const std::function<void()>& onClick, const bool xCentered,
+	ImageButton::ImageButton(Position x, Position y, const Image& image, const std::function<void()>& onClick, const bool xCentered,
 							const bool yCentered, const Background background, const Foreground foreground) :
-		InteractiveObject(getX, getY, xCentered)
+		InteractiveObject(x, y, xCentered)
 	{
 		_image = image;
 		_onClick = onClick;
@@ -17,8 +17,8 @@ namespace Console
 	{
 		auto background = Background::NONE;
 		auto foreground = Foreground::NONE;
-		int y = _getY(screen);
-		int x = _getX(screen);
+		int y = _y.GetValue(false);
+		int x = _x.GetValue(true);
 
 		if (_yCentered)
 		{
