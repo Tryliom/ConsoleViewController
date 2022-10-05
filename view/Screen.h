@@ -85,6 +85,11 @@ namespace Console
 		 */
 		void Draw(PixelColor* pixelColor);
 		/**
+		 * \brief Draw an image on the screen
+		 * \param image The image to draw
+		 */
+		void Draw(Image image, int x, int y, bool centeredX = false, bool centeredY = false);
+		/**
 		 * \brief Draw a rectangle of a color on the screen
 		 * \param x The x position of the rectangle
 		 * \param y The y position of the rectangle

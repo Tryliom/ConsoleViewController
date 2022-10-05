@@ -235,6 +235,24 @@ namespace Console
 		}
 	}
 
+	void Screen::Draw(const Image image, int x, int y, const bool centeredX, const bool centeredY)
+	{
+		if (centeredX)
+		{
+			x -= image.GetWidth() / 2;
+		}
+		if (centeredY)
+		{
+			y -= image.GetHeight() / 2;
+		}
+
+		for (const auto line : image.GetImage())
+		{
+			Draw(Text(line, x, y));
+			y++;
+		}
+	}
+
 	void Screen::DrawRect(const int x, const int y, const int width, const int height, const COLORREF color, const bool center)
 	{
 		int startX = x;
