@@ -235,7 +235,7 @@ namespace Console
 		}
 	}
 
-	void Screen::Draw(const Image image, int x, int y, const bool centeredX, const bool centeredY)
+	void Screen::Draw(const Image& image, int x, int y, const bool centeredX, const bool centeredY)
 	{
 		if (centeredX)
 		{
