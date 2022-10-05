@@ -208,10 +208,16 @@ namespace Console
 		}
 	}
 
-	void Screen::DrawRect(int x, int y, int width, int height, COLORREF color)
+	void Screen::DrawRect(const int x, const int y, const int width, const int height, const COLORREF color, const bool center)
 	{
-		const int startX = x - width / 2;
-		const int startY = y - height / 2;
+		int startX = x;
+		int startY = y;
+
+		if (center)
+		{
+			startX -= width / 2;
+			startY -= height / 2;
+		}
 
 		for (int h = 0; h < height; h++)
 		{
@@ -222,10 +228,16 @@ namespace Console
 		}
 	}
 
-	void Screen::DrawCircle(int x, int y, int radius, COLORREF color)
+	void Screen::DrawCircle(const int x, const int y, const int radius, const COLORREF color, const bool center)
 	{
-		const int startX = x - radius;
-		const int startY = y - radius;
+		int startX = x;
+		int startY = y;
+
+		if (center)
+		{
+			startX -= radius;
+			startY -= radius;
+		}
 
 		for (int h = 0; h < radius * 2; h++)
 		{
@@ -239,7 +251,7 @@ namespace Console
 		}
 	}
 
-	void Screen::DrawLine(int x1, int y1, int x2, int y2, int width, COLORREF color)
+	void Screen::DrawLine(int x1, int y1, const int x2, const int y2, const int width, const COLORREF color)
 	{
 		const int dx = abs(x2 - x1);
 		const int sx = x1 < x2 ? 1 : -1;
@@ -249,7 +261,7 @@ namespace Console
 
 		while (true)
 		{
-			DrawRect(x1, y1, width, width, color);
+			DrawRect(x1, y1, width, width, color, true);
 
 			if (x1 == x2 && y1 == y2)
 			{

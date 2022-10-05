@@ -83,11 +83,34 @@ namespace Console
 		 * \param pixelColor The pixel to draw
 		 */
 		void Draw(PixelColor* pixelColor);
-
-		void DrawRect(int x, int y, int width, int height, COLORREF color);
-
-		void DrawCircle(int x, int y, int radius, COLORREF color);
-
+		/**
+		 * \brief Draw a rectangle of a color on the screen
+		 * \param x The x position of the rectangle
+		 * \param y The y position of the rectangle
+		 * \param width The width of the rectangle
+		 * \param height The height of the rectangle
+		 * \param color The color of the rectangle
+		 * \param center If true, the rectangle will be centered on the specified position
+		 */
+		void DrawRect(int x, int y, int width, int height, COLORREF color, bool center = false);
+		/**
+		 * \brief Draw a circle of a color on the screen
+		 * \param x The x position of the circle
+		 * \param y The y position of the circle
+		 * \param radius The radius of the circle
+		 * \param color The color of the circle
+		 * \param center If true, the circle will be centered on the specified position
+		 */
+		void DrawCircle(int x, int y, int radius, COLORREF color, bool center = false);
+		/**
+		 * \brief Draw a line of a color on the screen
+		 * \param x1 The x position of the first point
+		 * \param y1 The y position of the first point
+		 * \param x2 The x position of the second point
+		 * \param y2 The y position of the second point
+		 * \param width The width of the line
+		 * \param color The color of the line
+		 */
 		void DrawLine(int x1, int y1, int x2, int y2, int width, COLORREF color);
 
 		/**
