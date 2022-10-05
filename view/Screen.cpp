@@ -58,8 +58,8 @@ namespace Console
 
 		HEIGHT = this->_height;
 		WIDTH = this->_width;
-		HEIGHT_PIXEL = r.bottom - r.top;
-		WIDTH_PIXEL = r.right - r.left;
+		HEIGHT_PIXEL = r.bottom - r.top - 40;
+		WIDTH_PIXEL = r.right - r.left - 16 * 2;
 
 		// Hide the cursor
 		setCursorVisibility(false);
