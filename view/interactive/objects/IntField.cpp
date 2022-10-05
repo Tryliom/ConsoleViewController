@@ -1,7 +1,6 @@
 #include "IntField.h"
 
 #include <stdexcept>
-#include <utility>
 
 std::string Console::IntField::GetStr() const
 {	
