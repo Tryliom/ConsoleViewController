@@ -235,21 +235,24 @@ namespace Console
 		}
 	}
 
-	void Screen::Draw(const Image& image, int x, int y, const bool centeredX, const bool centeredY)
+	void Screen::Draw(const Image& image, const int x, const int y, const bool centeredX, const bool centeredY)
 	{
+		int finalX = x;
+		int finalY = y;
+
 		if (centeredX)
 		{
-			x -= image.GetWidth() / 2;
+			finalX -= image.GetWidth() / 2;
 		}
 		if (centeredY)
 		{
-			y -= image.GetHeight() / 2;
+			finalY -= image.GetHeight() / 2;
 		}
 
-		for (const auto line : image.GetImage())
+		for (const auto& line : image.GetImage())
 		{
-			Draw(Text(line, x, y));
-			y++;
+			Draw(Text(line, finalX, finalY));
+			finalY++;
 		}
 	}
 
