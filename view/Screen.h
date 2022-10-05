@@ -30,8 +30,9 @@ namespace Console
 		int X;
 		int Y;
 		COLORREF Color;
+		bool Display{true};
 
-		PixelColor(int x, int y, COLORREF color)
+		PixelColor(const int x, const int y, const COLORREF color)
 		{
 			X = x;
 			Y = y;

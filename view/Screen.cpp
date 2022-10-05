@@ -122,11 +122,15 @@ namespace Console
 		{
 			bool found = false;
 
-			for (const PixelColor* pixel2 : _pixelColors)
+			for (PixelColor* pixel2 : _pixelColors)
 			{
 				if (pixel->X == pixel2->X && pixel->Y == pixel2->Y)
 				{
 					found = true;
+					if (pixel->Color == pixel2->Color)
+					{
+						pixel2->Display = false;
+					}
 					break;
 				}
 			}
@@ -137,9 +141,16 @@ namespace Console
 			}
 		}
 
-		for (const PixelColor* pixel : _pixelColors)
+		for (PixelColor* pixel : _pixelColors)
 		{
-			SetPixel(mydc, pixel->X, pixel->Y, pixel->Color);
+			if (pixel->Display)
+			{
+				SetPixel(mydc, pixel->X, pixel->Y, pixel->Color);
+			}
+			else
+			{
+				pixel->Display = true;
+			}
 		}
 
 		if (_cursorX != -1 && _cursorY != -1)
@@ -204,7 +215,23 @@ namespace Console
 	{
 		if (pixelColor->X >= 0 && pixelColor->X < WIDTH_PIXEL && pixelColor->Y >= 0 && pixelColor->Y < HEIGHT_PIXEL)
 		{
-			_pixelColors.emplace_back(pixelColor);
+			// Search if there is already a pixel at the same position
+			bool found = false;
+
+			for (PixelColor* pixel : _pixelColors)
+			{
+				if (pixel->X == pixelColor->X && pixel->Y == pixelColor->Y)
+				{
+					pixel->Color = pixelColor->Color;
+					found = true;
+					break;
+				}
+			}
+
+			if (!found)
+			{
+				_pixelColors.emplace_back(pixelColor);
+			}
 		}
 	}
 
