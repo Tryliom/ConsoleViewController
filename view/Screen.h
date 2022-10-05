@@ -88,7 +88,7 @@ namespace Console
 		 * \brief Draw an image on the screen
 		 * \param image The image to draw
 		 */
-		void Draw(Image image, int x, int y, bool centeredX = false, bool centeredY = false);
+		void Draw(const Image& image, int x, int y, bool centeredX = false, bool centeredY = false);
 		/**
 		 * \brief Draw a rectangle of a color on the screen
 		 * \param x The x position of the rectangle
