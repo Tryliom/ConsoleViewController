@@ -10,6 +10,7 @@
 #include "controller/Controller.h"
 #include "view/Screen.h"
 #include "view/Image.h"
+#include "utilities/Utility.h"
 
 namespace Console
 {

@@ -40,6 +40,7 @@ namespace Console
 		void RemoveComponent(InteractiveObject* component) { _components.erase(std::remove(_components.begin(), _components.end(), component), _components.end()); }
 		template<class T>
 		T* GetComponent(const int index) const { return dynamic_cast<T*>(_components[index]); }
+		void ClearComponents() { _components.clear(); }
 	};
 }
 
