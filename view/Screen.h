@@ -3,6 +3,7 @@
 #include "../Constants.h"
 
 #include <string>
+#include <unordered_map>
 #include <vector>
 #include <windows.h>
 
@@ -23,6 +24,19 @@ namespace Console
 		bool XCentered{ false };
 		Background Background{ Background::NONE };
 		Foreground Foreground{ Foreground::NONE };
+	};
+
+	struct Pixel
+	{
+		int X;
+		int Y;
+
+		bool operator==(const Pixel& other) const
+		{
+			return this->X == other.X && this->Y == other.Y;
+		}
+
+		bool operator()()
 	};
 
 	struct PixelColor
@@ -46,8 +60,8 @@ namespace Console
 		std::vector<std::vector<std::string>> _screen;
 		// The cache of the previous screen
 		std::vector<std::vector<std::string>> _cache;
-		std::vector<PixelColor*> _pixelColors;
-		std::vector<PixelColor*> _pixelColorsCache;
+		std::unordered_map<Pixel, PixelColor> _pixelColorsMap;
+		std::unordered_map<Pixel, PixelColor> _pixelColorsMapCache;
 		// The cursor position on the screen if it is displayed
 		int _cursorX;
 		int _cursorY;
@@ -81,10 +95,14 @@ namespace Console
 		 * \brief Draw a pixel of a color on the screen
 		 * \param pixelColor The pixel to draw
 		 */
-		void Draw(PixelColor* pixelColor);
+		void Draw(PixelColor pixelColor);
 		/**
 		 * \brief Draw an image on the screen
 		 * \param image The image to draw
+		 * \param x The x position of the image
+		 * \param y The y position of the image
+		 * \param centeredX If true, the image will be centered on the x axis
+		 * \param centeredY If true, the image will be centered on the y axis
 		 */
 		void Draw(const Image& image, int x, int y, bool centeredX = false, bool centeredY = false);
 		/**

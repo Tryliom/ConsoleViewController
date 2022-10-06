@@ -1,6 +1,7 @@
 #include "screen.h"
 
 #include <iostream>
+#include <ranges>
 #include <thread>
 #include <windows.h>
 
@@ -49,15 +50,14 @@ namespace Console
 
 		this->_cache = this->_screen;
 		this->_screen = {};
-		this->_pixelColorsCache = this->_pixelColors;
-		this->_pixelColors = {};
-		
-		for (PixelColor* pixel : _pixelColorsCache)
+		this->_pixelColorsMapCache = this->_pixelColorsMap;
+		this->_pixelColorsMap = {};
+
+		for (const auto& value : _pixelColorsMapCache | std::views::values)
 		{
-			if (pixel->Color == RGB(12, 12, 12))
+			if (value.Color == RGB(12, 12, 12))
 			{
-				// Remove pixel from cache
-				_pixelColorsCache.erase(std::remove(_pixelColorsCache.begin(), _pixelColorsCache.end(), pixel), _pixelColorsCache.end());
+				delete& value;
 			}
 		}
 
@@ -118,38 +118,31 @@ namespace Console
 		HWND myconsole = GetConsoleWindow();
 		HDC mydc = GetDC(myconsole);
 
-		for (PixelColor* pixel : _pixelColorsCache)
+		// Doesn't display pixels that are already displayed on the screen
+		for (const auto& key : _pixelColorsMapCache | std::views::keys)
 		{
-			bool found = false;
-
-			for (PixelColor* pixel2 : _pixelColors)
+			if (_pixelColorsMap.contains(key))
 			{
-				if (pixel->X == pixel2->X && pixel->Y == pixel2->Y)
+				if (_pixelColorsMap[key].Color == _pixelColorsMapCache[key].Color)
 				{
-					found = true;
-					if (pixel->Color == pixel2->Color)
-					{
-						pixel2->Display = false;
-					}
-					break;
+					_pixelColorsMap[key].Display = false;
+					continue;
 				}
 			}
 
-			if (!found)
-			{
-				_pixelColors.emplace_back(new PixelColor(pixel->X, pixel->Y, RGB(12, 12, 12)));
-			}
+			_pixelColorsMapCache[key].Color = RGB(12, 12, 12);
 		}
 
-		for (PixelColor* pixel : _pixelColors)
+		// Display all pixels that are not already displayed on the screen
+		for (auto& value : _pixelColorsMap | std::views::values)
 		{
-			if (pixel->Display)
+			if (value.Display)
 			{
-				SetPixel(mydc, pixel->X, pixel->Y, pixel->Color);
+				SetPixel(mydc, value.X, value.Y, value.Color);
 			}
 			else
 			{
-				pixel->Display = true;
+				value.Display = true;
 			}
 		}
 
@@ -211,26 +204,19 @@ namespace Console
 		}
 	}
 
-	void Screen::Draw(PixelColor* pixelColor)
+	void Screen::Draw(PixelColor pixelColor)
 	{
-		if (pixelColor->X >= 0 && pixelColor->X < WIDTH_PIXEL && pixelColor->Y >= 0 && pixelColor->Y < HEIGHT_PIXEL)
+		if (pixelColor.X >= 0 && pixelColor.X < WIDTH_PIXEL && pixelColor.Y >= 0 && pixelColor.Y < HEIGHT_PIXEL)
 		{
 			// Search if there is already a pixel at the same position
-			bool found = false;
-
-			for (PixelColor* pixel : _pixelColors)
+			const Pixel pixel = Pixel(pixelColor.X, pixelColor.Y);
+			if (_pixelColorsMap.contains(pixel))
 			{
-				if (pixel->X == pixelColor->X && pixel->Y == pixelColor->Y)
-				{
-					pixel->Color = pixelColor->Color;
-					found = true;
-					break;
-				}
+				_pixelColorsMap[pixel].Color = pixelColor.Color;
 			}
-
-			if (!found)
+			else
 			{
-				_pixelColors.emplace_back(pixelColor);
+				_pixelColorsMap[pixel] = pixelColor;
 			}
 		}
 	}
@@ -271,7 +257,7 @@ namespace Console
 		{
 			for (int w = 0; w < width; w++)
 			{
-				Draw(new PixelColor(startX + w, startY + h, color));
+				Draw(PixelColor(startX + w, startY + h, color));
 			}
 		}
 	}
@@ -293,7 +279,7 @@ namespace Console
 			{
 				if (sqrt(pow(h - radius, 2) + pow(w - radius, 2)) <= radius)
 				{
-					Draw(new PixelColor(startX + w, startY + h, color));
+					Draw(PixelColor(startX + w, startY + h, color));
 				}
 			}
 		}
