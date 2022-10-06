@@ -25,10 +25,10 @@ Position::Position(const float relativePosition)
 
 int PositionX::GetValue() const
 {
-	return _absolutePosition + static_cast<int>(_relativePosition * Console::Screen::WIDTH);
+	return _absolutePosition + static_cast<int>(_relativePosition * static_cast<float>(Console::Screen::WIDTH));
 }
 
 int PositionY::GetValue() const
 {
-	return _absolutePosition + static_cast<int>(_relativePosition * Console::Screen::HEIGHT);
+	return _absolutePosition + static_cast<int>(_relativePosition * static_cast<float>(Console::Screen::HEIGHT));
 }

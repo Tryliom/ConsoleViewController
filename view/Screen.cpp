@@ -25,8 +25,6 @@ namespace Console
 
 	Screen::Screen()
 	{
-		this->_height = 0;
-		this->_width = 0;
 		this->_screen = {};
 		this->_cache = {};
 	}
@@ -40,8 +38,15 @@ namespace Console
 		GetWindowRect(console, &r);
 		CONSOLE_SCREEN_BUFFER_INFO csbi;
 		GetConsoleScreenBufferInfo(output, &csbi);
-		this->_height = csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
-		this->_width = csbi.srWindow.Right - csbi.srWindow.Left + 1;
+
+		// Redefine the height and width of the screen
+		HEIGHT = csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
+		WIDTH = csbi.srWindow.Right - csbi.srWindow.Left + 1;
+		HEIGHT_PIXEL = r.bottom - r.top - 40;
+		WIDTH_PIXEL = r.right - r.left - 16 * 2;
+		PIXEL_RATIO_Y = HEIGHT_PIXEL / HEIGHT;
+		PIXEL_RATIO_X = WIDTH_PIXEL / WIDTH;
+
 		this->_cache = this->_screen;
 		this->_screen = {};
 		this->_pixelColorsCache = this->_pixelColors;
@@ -56,27 +61,22 @@ namespace Console
 			}
 		}
 
-		HEIGHT = this->_height;
-		WIDTH = this->_width;
-		HEIGHT_PIXEL = r.bottom - r.top - 40;
-		WIDTH_PIXEL = r.right - r.left - 16 * 2;
-
 		// Hide the cursor
 		setCursorVisibility(false);
 
 		// Fill the screen with spaces and # if BORDER is true for borders
-		for (int h = 0; h < _height; h++)
+		for (int h = 0; h < HEIGHT; h++)
 		{
 			std::vector<std::string> row;
-			for (int w = 0; w < _width; w++)
+			for (int w = 0; w < WIDTH; w++)
 			{
 				if (BORDER)
 				{
-					if (h == 0 || h == _height - 1)
+					if (h == 0 || h == HEIGHT - 1)
 					{
 						row.emplace_back(BORDER_ROW);
 					}
-					else if (w == 0 || w == _width - 1)
+					else if (w == 0 || w == WIDTH - 1)
 					{
 						row.emplace_back(BORDER_COLUMN);
 					}
@@ -102,12 +102,12 @@ namespace Console
 	void Screen::Render()
 	{
 		// Display every lines of the screen
-		for (int h = 0; h < _height; h++)
+		for (int h = 0; h < HEIGHT; h++)
 		{
-			for (int w = 0; w < _width; w++)
+			for (int w = 0; w < WIDTH; w++)
 			{
 				// If the cache has a different size than the screen, display the whole screen, otherwise only the differences between the cache and the screen
-				if (static_cast<int>(this->_cache.size()) != _height || static_cast<int>(this->_cache[h].size()) != _width || this->_cache[h][w] != _screen[h][w])
+				if (static_cast<int>(this->_cache.size()) != HEIGHT || static_cast<int>(this->_cache[h].size()) != WIDTH || this->_cache[h][w] != _screen[h][w])
 				{
 					this->setPos(w, h);
 					std::cout << _screen[h][w];
@@ -169,7 +169,7 @@ namespace Console
 		}
 
 		// If the text is out of the screen, don't draw it
-		if (_height <= text.Y || _width <= text.X)
+		if (HEIGHT <= text.Y || WIDTH <= text.X)
 		{
 			return;
 		}
@@ -202,7 +202,7 @@ namespace Console
 		for (int i = 0; i < static_cast<int>(text.Str.size()); i++)
 		{
 			// Break if the text is out of the screen
-			if (text.X + i >= _width)
+			if (text.X + i >= WIDTH)
 			{
 				break;
 			}

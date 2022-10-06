@@ -48,8 +48,6 @@ namespace Console
 		std::vector<std::vector<std::string>> _cache;
 		std::vector<PixelColor*> _pixelColors;
 		std::vector<PixelColor*> _pixelColorsCache;
-		int _height;
-		int _width;
 		// The cursor position on the screen if it is displayed
 		int _cursorX;
 		int _cursorY;
@@ -58,13 +56,13 @@ namespace Console
 	public:
 		Screen();
 
-		int GetHeight() const { return this->_height; }
-		int GetWidth() const { return this->_width; }
-
 		inline static int HEIGHT = 0;
 		inline static int WIDTH = 0;
 		inline static int HEIGHT_PIXEL = 0;
 		inline static int WIDTH_PIXEL = 0;
+		// The ratio you need to multiply the width and height of the screen to get the width and height of the pixel screen
+		inline static int PIXEL_RATIO_X = 1;
+		inline static int PIXEL_RATIO_Y = 1;
 
 		/**
 		 * \brief Clear the screen and prepare it for a new display
