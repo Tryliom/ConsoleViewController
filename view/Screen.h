@@ -36,7 +36,20 @@ namespace Console
 			return this->X == other.X && this->Y == other.Y;
 		}
 
-		bool operator()()
+		bool operator()(const Pixel& lhs, const Pixel& rhs) const
+		{
+			return lhs.X < rhs.X || (lhs.X == rhs.X && lhs.Y < rhs.Y);
+		}
+
+		std::size_t operator()(const Pixel& pixel) const
+		{
+			return std::hash<int>()(pixel.X) ^ std::hash<int>()(pixel.Y);
+		}
+
+		bool operator<(const Pixel& other) const
+		{
+			return this->X < other.X || (this->X == other.X && this->Y < other.Y);
+		}
 	};
 
 	struct PixelColor
@@ -46,6 +59,7 @@ namespace Console
 		COLORREF Color;
 		bool Display{true};
 
+		PixelColor() = default;
 		PixelColor(const int x, const int y, const COLORREF color)
 		{
 			X = x;
@@ -60,8 +74,8 @@ namespace Console
 		std::vector<std::vector<std::string>> _screen;
 		// The cache of the previous screen
 		std::vector<std::vector<std::string>> _cache;
-		std::unordered_map<Pixel, PixelColor> _pixelColorsMap;
-		std::unordered_map<Pixel, PixelColor> _pixelColorsMapCache;
+		std::map<Pixel, PixelColor> _pixelColorsMap;
+		std::map<Pixel, PixelColor> _pixelColorsMapCache;
 		// The cursor position on the screen if it is displayed
 		int _cursorX;
 		int _cursorY;

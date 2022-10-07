@@ -5,6 +5,8 @@
 #include <thread>
 #include <windows.h>
 
+constexpr COLORREF BACKGROUND_COLOR = RGB(12, 12, 12);
+
 namespace Console
 {
 	void setCursorVisibility(const bool visibility)
@@ -28,6 +30,8 @@ namespace Console
 	{
 		this->_screen = {};
 		this->_cache = {};
+		this->_pixelColorsMap = {};
+		this->_pixelColorsMapCache = {};
 	}
 
 	void Screen::Reset()
@@ -53,11 +57,15 @@ namespace Console
 		this->_pixelColorsMapCache = this->_pixelColorsMap;
 		this->_pixelColorsMap = {};
 
-		for (const auto& value : _pixelColorsMapCache | std::views::values)
+		for (auto i = _pixelColorsMapCache.begin(); i != _pixelColorsMapCache.end();)
 		{
-			if (value.Color == RGB(12, 12, 12))
+			if (i->second.Color == BACKGROUND_COLOR)
 			{
-				delete& value;
+				i = _pixelColorsMapCache.erase(i);
+			}
+			else
+			{
+				++i;
 			}
 		}
 
@@ -115,8 +123,8 @@ namespace Console
 			}
 		}
 
-		HWND myconsole = GetConsoleWindow();
-		HDC mydc = GetDC(myconsole);
+		const HWND myconsole = GetConsoleWindow();
+		const HDC mydc = GetDC(myconsole);
 
 		// Doesn't display pixels that are already displayed on the screen
 		for (const auto& key : _pixelColorsMapCache | std::views::keys)
@@ -126,11 +134,12 @@ namespace Console
 				if (_pixelColorsMap[key].Color == _pixelColorsMapCache[key].Color)
 				{
 					_pixelColorsMap[key].Display = false;
-					continue;
 				}
+
+				continue;
 			}
 
-			_pixelColorsMapCache[key].Color = RGB(12, 12, 12);
+			_pixelColorsMap[key] = PixelColor(key.X, key.Y, BACKGROUND_COLOR);
 		}
 
 		// Display all pixels that are not already displayed on the screen
@@ -209,7 +218,8 @@ namespace Console
 		if (pixelColor.X >= 0 && pixelColor.X < WIDTH_PIXEL && pixelColor.Y >= 0 && pixelColor.Y < HEIGHT_PIXEL)
 		{
 			// Search if there is already a pixel at the same position
-			const Pixel pixel = Pixel(pixelColor.X, pixelColor.Y);
+			const auto pixel = Pixel(pixelColor.X, pixelColor.Y);
+
 			if (_pixelColorsMap.contains(pixel))
 			{
 				_pixelColorsMap[pixel].Color = pixelColor.Color;
