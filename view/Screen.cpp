@@ -5,7 +5,7 @@
 #include <thread>
 #include <windows.h>
 
-constexpr COLORREF BACKGROUND_COLOR = RGB(12, 12, 12);
+constexpr COLORREF DEFAULT_BACKGROUND_COLOR = RGB(12, 12, 12);
 
 namespace Console
 {
@@ -59,7 +59,7 @@ namespace Console
 
 		for (auto i = _pixelColorsMapCache.begin(); i != _pixelColorsMapCache.end();)
 		{
-			if (i->second.Color == BACKGROUND_COLOR)
+			if (i->second.Color == DEFAULT_BACKGROUND_COLOR)
 			{
 				i = _pixelColorsMapCache.erase(i);
 			}
@@ -139,7 +139,7 @@ namespace Console
 				continue;
 			}
 
-			_pixelColorsMap[key] = PixelColor(key.X, key.Y, BACKGROUND_COLOR);
+			_pixelColorsMap[key] = PixelColor(key.X, key.Y, DEFAULT_BACKGROUND_COLOR);
 		}
 
 		// Display all pixels that are not already displayed on the screen
@@ -213,7 +213,7 @@ namespace Console
 		}
 	}
 
-	void Screen::Draw(PixelColor pixelColor)
+	void Screen::Draw(const PixelColor pixelColor)
 	{
 		if (pixelColor.X >= 0 && pixelColor.X < WIDTH_PIXEL && pixelColor.Y >= 0 && pixelColor.Y < HEIGHT_PIXEL)
 		{
