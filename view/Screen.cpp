@@ -352,4 +352,16 @@ namespace Console
 		const int screenHeight = GetSystemMetrics(SM_CYSCREEN);
 		MoveWindow(console, (screenWidth - width) / 2, (screenHeight - height) / 2, width, height, TRUE);
 	}
+
+	void Screen::EnableVirtualTerminalProcessing()
+	{
+		const HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
+		DWORD dwMode = 0;
+		GetConsoleMode(handle, &dwMode);
+		if (!(dwMode & ENABLE_VIRTUAL_TERMINAL_PROCESSING))
+		{
+			dwMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
+			SetConsoleMode(handle, dwMode);
+		}
+	}
 }

@@ -165,6 +165,10 @@ namespace Console
 		 */
 		static void CenterWindow();
 		/**
+		 * \brief You need to enable this if you want to use colors
+		 */
+		static void EnableVirtualTerminalProcessing();
+		/**
 		 * \brief Set the cursor position for this frame
 		 * \param x The x position of the cursor
 		 * \param y The y position of the cursor
