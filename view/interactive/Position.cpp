@@ -23,12 +23,26 @@ Position::Position(const float relativePosition)
 	_relativePosition = relativePosition;
 }
 
-int PositionX::GetValue() const
+int PositionX::GetValue(const bool usePixel)
 {
-	return _absolutePosition + static_cast<int>(_relativePosition * static_cast<float>(Console::Screen::WIDTH));
+	int value = _absolutePosition + static_cast<int>(_relativePosition * static_cast<float>(Console::Screen::WIDTH));
+
+	if (usePixel)
+	{
+		value *= Console::Screen::PIXEL_RATIO_X;
+	}
+
+	return value;
 }
 
-int PositionY::GetValue() const
+int PositionY::GetValue(const bool usePixel)
 {
-	return _absolutePosition + static_cast<int>(_relativePosition * static_cast<float>(Console::Screen::HEIGHT));
+	int value = _absolutePosition + static_cast<int>(_relativePosition * static_cast<float>(Console::Screen::HEIGHT));
+
+	if (usePixel)
+	{
+		value *= Console::Screen::PIXEL_RATIO_Y;
+	}
+
+	return value;
 }

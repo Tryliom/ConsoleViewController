@@ -10,7 +10,7 @@ public:
 	explicit Position(int absolutePosition);
 	explicit Position(float relativePosition);
 
-	virtual int GetValue() const = 0;
+	virtual int GetValue(bool usePixel = false) = 0;
 };
 
 class PositionX: public Position {
@@ -20,7 +20,7 @@ public:
 	explicit PositionX(int absolutePosition) : Position(absolutePosition) {}
 	explicit PositionX(float relativePosition) : Position(relativePosition) {}
 
-	int GetValue() const override;
+	int GetValue(bool usePixel = false) override;
 };
 
 class PositionY : public Position {
@@ -30,5 +30,5 @@ public:
 	explicit PositionY(int absolutePosition) : Position(absolutePosition) {}
 	explicit PositionY(float relativePosition) : Position(relativePosition) {}
 
-	int GetValue() const override;
+	int GetValue(bool usePixel = false) override;
 };
