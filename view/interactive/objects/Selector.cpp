@@ -3,11 +3,12 @@
 namespace Console
 {
 	Selector::Selector(PositionX x, PositionY y, const std::vector<std::string>& options,
-	                   const std::function<void(int)>& setValue, const bool xCentered) :
+	                   const std::function<void(int)>& setValue, const int defaultSelected, const bool xCentered) :
 		InteractiveObject(x, y, xCentered)
 	{
 		_options = options;
 		_setValue = setValue;
+		_selected = defaultSelected;
 	}
 
 	void Selector::Draw(Controller* controller, Screen& screen, const bool selected)

@@ -12,7 +12,7 @@ namespace Console
 		int _selected{ 0 };
 		std::function<void(int)> _setValue;
 	public:
-		Selector(PositionX x, PositionY y, const std::vector<std::string>& options, const std::function<void(int)>& setValue, bool xCentered = false);
+		Selector(PositionX x, PositionY y, const std::vector<std::string>& options, const std::function<void(int)>& setValue, int defaultSelected = 0, bool xCentered = false);
 
 		void Draw(Controller* controller, Screen& screen, bool selected) override;
 		void OnKeyPress(Controller* controller, const char key) override;
