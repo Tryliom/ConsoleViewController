@@ -4,9 +4,9 @@
 
 namespace Console::AudioManager
 {
-	void Play(const std::string& path)
+	void Play(const std::string& path, const bool repeat)
 	{
-		sndPlaySoundA(path.c_str(), SND_FILENAME | SND_ASYNC);
+		PlaySoundA(path.c_str(), nullptr, SND_FILENAME | SND_ASYNC | (repeat ? SND_LOOP : 0));
 	}
 
 	void Stop()

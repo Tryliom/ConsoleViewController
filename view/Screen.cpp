@@ -45,6 +45,8 @@ namespace Console
 		GetConsoleScreenBufferInfo(output, &csbi);
 
 		// Redefine the height and width of the screen
+		int oldWidth = WIDTH_PIXEL;
+		int oldHeight = HEIGHT_PIXEL;
 		HEIGHT = csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
 		WIDTH = csbi.srWindow.Right - csbi.srWindow.Left + 1;
 		HEIGHT_PIXEL = r.bottom - r.top - 40;
@@ -56,6 +58,23 @@ namespace Console
 		this->_screen = {};
 		this->_pixelColorsMapCache = this->_pixelColorsMap;
 		this->_pixelColorsMap = {};
+
+		if (oldWidth != WIDTH_PIXEL || oldHeight != HEIGHT_PIXEL)
+		{
+			_cache.clear();
+			_frameCountdown = 5;
+		}
+
+		if (_frameCountdown > 0)
+		{
+			_pixelColorsMapCache.clear();
+			_frameCountdown--;
+		}
+
+		if (!PIXEL_CACHE)
+		{
+			_pixelColorsMapCache.clear();
+		}
 
 		for (auto i = _pixelColorsMapCache.begin(); i != _pixelColorsMapCache.end();)
 		{

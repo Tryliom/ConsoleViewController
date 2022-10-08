@@ -79,6 +79,8 @@ namespace Console
 		// The cursor position on the screen if it is displayed
 		int _cursorX;
 		int _cursorY;
+		// Used to fix bug with pixel being replaced by _screen
+		int _frameCountdown;
 
 		static void setPos(int x, int y);
 	public:
@@ -91,6 +93,7 @@ namespace Console
 		// The ratio you need to multiply the width and height of the screen to get the width and height of the pixel screen
 		inline static int PIXEL_RATIO_X = 1;
 		inline static int PIXEL_RATIO_Y = 1;
+		inline static bool PIXEL_CACHE = true;
 
 		/**
 		 * \brief Clear the screen and prepare it for a new display
