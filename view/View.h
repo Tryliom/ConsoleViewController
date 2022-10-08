@@ -15,7 +15,7 @@ namespace Console
 		std::vector<InteractiveObject*> _components;
 	protected:
 		void setComponents(const std::vector<InteractiveObject*>& components) { _components = components; }
-		void AddComponent(InteractiveObject* component) { _components.push_back(component); }
+		void addComponent(InteractiveObject* component) { _components.push_back(component); }
 	public:
 		View(int defaultButton = 0);
 		/**
