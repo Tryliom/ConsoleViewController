@@ -1,8 +1,8 @@
 #pragma once
 #include "../view/View.h"
 #include "../view/Screen.h"
-#include "../Constants.h"
 
+#include <functional>
 #include <stack>
 
 namespace Console
@@ -21,6 +21,8 @@ namespace Console
 		View* _view{ nullptr };
 		// The previous views
 		std::stack<View*> _views;
+		// Used to execute operations at the end of the update
+		std::vector<std::function<void()>> _queue;
 
 	private:
 		/**
@@ -65,6 +67,11 @@ namespace Console
 		 * \brief Clear the stack views
 		 */
 		void ClearStack();
+		/**
+		 * \brief Add an operation to the queue
+		 * \param func The operation
+		 */
+		void AddToQueue(const std::function<void()> func) { _queue.push_back(func); }
 	};
 }
 

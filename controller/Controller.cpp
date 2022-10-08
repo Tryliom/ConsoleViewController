@@ -9,6 +9,7 @@ namespace Console
 	void Controller::GoBack()
 	{
 		this->_view = this->_views.top();
+		this->_view->OnOpenView(this);
 		this->_views.pop();
 	}
 
@@ -24,6 +25,13 @@ namespace Console
 		{
 			this->_view->Update(this, this->_screen);
 		}
+
+		for (auto& func : this->_queue)
+		{
+			func();
+		}
+
+		this->_queue.clear();
 	}
 
 	void Controller::onKeyPressed(const char key)

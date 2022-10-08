@@ -30,6 +30,11 @@ namespace Console
 		 * \param key The key pressed
 		 */
 		virtual void OnKeyPressed(Controller* controller, char key);
+		/**
+		 * \brief Called when the view is set in the controller
+		 * \param controller The controller to get the data from
+		 */
+		virtual void OnOpenView(Controller* controller) {}
 
 		int GetMaxButton() const { return static_cast<int>(_components.size()); }
 		void SetCurrentButton(const int currentButton) { if (currentButton >= 0) _currentButton = currentButton; }
