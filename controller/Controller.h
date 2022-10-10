@@ -7,7 +7,7 @@
 
 namespace Console
 {
-	int constexpr FPS = 120;
+	int constexpr MAX_FPS = 120;
 	bool constexpr LIMIT_FPS = true;
 
 	class View;
@@ -42,9 +42,19 @@ namespace Console
 		 * \param key The key pressed
 		 */
 		void onKeyPressed(char key);
+		/**
+		 * \brief Called every 50ms
+		 */
+		void onTick();
+
+		// Used to calculate the FPS
+		int _fpsCounter{ 0 };
 	public:
-		int CurrentFPS{ 0 };
-		int Tick{ 0 };
+		// The current FPS (updated every second)
+		inline static int FPS = 0;
+		// Incremented every tick (50ms)
+		inline static int TICK = 0;
+
 		/**
 		 * \brief Start the controller
 		 */
@@ -71,7 +81,7 @@ namespace Console
 		 * \brief Add an operation to the queue
 		 * \param func The operation
 		 */
-		void AddToQueue(const std::function<void()> func) { _queue.push_back(func); }
+		void AddToQueue(const std::function<void()>& func) { _queue.push_back(func); }
 	};
 }
 

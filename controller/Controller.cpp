@@ -57,6 +57,15 @@ namespace Console
 		}
 	}
 
+	void Controller::onTick()
+	{
+		// If the view is not null, call the view's OnTick method
+		if (this->_view != nullptr)
+		{
+			this->_view->OnTick(this);
+		}
+	}
+
 	void Controller::refresh()
 	{
 		_screen.Reset();
@@ -72,10 +81,10 @@ namespace Console
 
 				while (true)
 				{
-					nextFrame += std::chrono::milliseconds(1000 / FPS);
+					nextFrame += std::chrono::milliseconds(1000 / MAX_FPS);
 
 					this->refresh();
-					Tick++;
+					_fpsCounter++;
 
 					if (LIMIT_FPS)
 					{
@@ -91,12 +100,30 @@ namespace Console
 				while (true)
 				{
 					Utility::sleep(1000);
-					this->CurrentFPS = Tick;
-					Tick = 0;
+					FPS = _fpsCounter;
+					_fpsCounter = 0;
+					TICK = 0;
 				}
 			}
 		);
 		fpsThread.detach();
+
+		std::thread tickThread([this]()
+			{
+				auto nextFrame = std::chrono::steady_clock::now();
+
+				while (true)
+				{
+					nextFrame += std::chrono::milliseconds(50);
+
+					this->onTick();
+					TICK++;
+
+					std::this_thread::sleep_until(nextFrame);
+				}
+			}
+		);
+		tickThread.detach();
 	}
 
 	void Controller::Start()

@@ -31,6 +31,11 @@ namespace Console
 		 */
 		virtual void OnKeyPressed(Controller* controller, char key);
 		/**
+		 * \brief Called every 50ms
+		 * \param controller The controller to get the data from
+		 */
+		virtual void OnTick(Controller* controller) {}
+		/**
 		 * \brief Called when the view is set in the controller
 		 * \param controller The controller to get the data from
 		 */
