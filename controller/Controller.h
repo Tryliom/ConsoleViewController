@@ -7,9 +7,6 @@
 
 namespace Console
 {
-	int constexpr MAX_FPS = 120;
-	bool constexpr LIMIT_FPS = true;
-
 	class View;
 
 	class Controller
@@ -44,15 +41,16 @@ namespace Console
 		void onKeyPressed(char key);
 		/**
 		 * \brief Called every 50ms
+		 * \param deltaTime The time since the last tick
 		 */
-		void onTick();
+		void onTick(int deltaTime);
 
 		// Used to calculate the FPS
 		int _fpsCounter{ 0 };
 	public:
 		// The current FPS (updated every second)
 		inline static int FPS = 0;
-		// Incremented every tick (50ms)
+		// Incremented every tick
 		inline static int TICK = 0;
 
 		/**

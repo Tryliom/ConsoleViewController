@@ -13,7 +13,7 @@ namespace Console
 		_foreground = foreground;
 	}
 
-	void ImageButton::Draw(Controller* controller, Screen& screen, bool selected)
+	void ImageButton::Draw(Screen& screen, bool selected)
 	{
 		auto background = Background::NONE;
 		auto foreground = Foreground::NONE;
@@ -37,7 +37,7 @@ namespace Console
 		}
 	}
 
-	void ImageButton::OnKeyPress(Controller* controller, const char key)
+	void ImageButton::OnKeyPress(const char key)
 	{
 		if (key == Key::Enter)
 		{

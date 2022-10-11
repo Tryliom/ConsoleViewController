@@ -11,7 +11,7 @@ Console::BasicField::BasicField(PositionX x, PositionY y, const std::function<st
 	_showCursor = showCursor;
 }
 
-void Console::BasicField::Draw(Controller* controller, Screen& screen, const bool selected)
+void Console::BasicField::Draw(Screen& screen, const bool selected)
 {
 	auto background = _background;
 	auto foreground = _foreground;
@@ -32,7 +32,7 @@ void Console::BasicField::Draw(Controller* controller, Screen& screen, const boo
 	}
 }
 
-void Console::BasicField::OnKeyPress(Controller* controller, const char key)
+void Console::BasicField::OnKeyPress(const char key)
 {
 	if (_condition(key))
 	{

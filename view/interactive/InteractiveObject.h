@@ -24,8 +24,8 @@ namespace Console
 	public:
 		InteractiveObject(PositionX x, PositionY y, bool xCentered = false);
 
-		virtual void Draw(Controller* controller, Screen& screen, bool selected) = 0;
-		virtual void OnKeyPress(Controller* controller, const char key) = 0;
+		virtual void Draw(Screen& screen, bool selected) = 0;
+		virtual void OnKeyPress(const char key) = 0;
 	};
 
 

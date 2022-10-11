@@ -14,7 +14,7 @@ namespace Console
 	public:
 		Selector(PositionX x, PositionY y, const std::vector<std::string>& options, const std::function<void(int)>& setValue, int defaultSelected = 0, bool xCentered = false);
 
-		void Draw(Controller* controller, Screen& screen, bool selected) override;
-		void OnKeyPress(Controller* controller, const char key) override;
+		void Draw(Screen& screen, bool selected) override;
+		void OnKeyPress(const char key) override;
 	};
 }

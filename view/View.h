@@ -33,8 +33,9 @@ namespace Console
 		/**
 		 * \brief Called every 50ms
 		 * \param controller The controller to get the data from
+		 * \param deltaTime The time since the last tick in nanoseconds
 		 */
-		virtual void OnTick(Controller* controller) {}
+		virtual void OnTick(Controller* controller, int deltaTime) {}
 		/**
 		 * \brief Called when the view is set in the controller
 		 * \param controller The controller to get the data from

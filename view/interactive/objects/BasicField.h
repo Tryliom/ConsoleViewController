@@ -27,8 +27,8 @@ namespace Console
 		inline static std::function<bool(char key)> IsSpace = [](const char key) { return key == ' '; };
 		inline static std::function<bool(char key)> DefaultCondition = [](const char key) { return true; };
 
-		void Draw(Controller* controller, Screen& screen, bool selected) override;
-		void OnKeyPress(Controller* controller, char key) override;
+		void Draw(Screen& screen, bool selected) override;
+		void OnKeyPress(char key) override;
 	};
 }
 

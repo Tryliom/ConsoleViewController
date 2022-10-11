@@ -11,7 +11,7 @@ namespace Console
 	{
 		for (const auto& component : _components)
 		{
-			component->Draw(controller, screen, component == _components[_currentButton]);
+			component->Draw(screen, component == _components[_currentButton]);
 		}
 	}
 
@@ -33,7 +33,7 @@ namespace Console
 
 		if (_currentButton >= 0)
 		{
-			_components[_currentButton]->OnKeyPress(controller, key);
+			_components[_currentButton]->OnKeyPress(key);
 		}
 	}
 }

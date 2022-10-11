@@ -2,7 +2,7 @@
 
 namespace Console
 {
-	BasicButton::BasicButton(const std::string& str, PositionX x, PositionY y, const std::function<void(Controller* controller)>& onClick, const bool xCentered, const bool yCentered) :
+	BasicButton::BasicButton(const std::string& str, PositionX x, PositionY y, const std::function<void()>& onClick, const bool xCentered, const bool yCentered) :
 		InteractiveObject(x, y, xCentered)
 	{
 		_str = str;
@@ -10,7 +10,7 @@ namespace Console
 		_onClick = onClick;
 	}
 
-	void BasicButton::Draw(Controller* controller, Screen& screen, const bool selected)
+	void BasicButton::Draw(Screen& screen, const bool selected)
 	{
 		auto background = _background;
 		auto foreground = _foreground;
@@ -42,11 +42,11 @@ namespace Console
 		screen.Draw(Text{ .Str = border, .X = x, .Y = y + 2, .XCentered = _xCentered, .Background = background, .Foreground = foreground });
 	}
 
-	void BasicButton::OnKeyPress(Controller* controller, const char key)
+	void BasicButton::OnKeyPress(const char key)
 	{
 		if (key == Key::Enter)
 		{
-			_onClick(controller);
+			_onClick();
 		}
 	}
 }

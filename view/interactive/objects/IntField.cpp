@@ -28,9 +28,9 @@ Console::IntField::IntField(PositionX x, PositionY y, const std::function<int()>
 	_enableLeftRightArrow = enableLeftRightArrow;
 }
 
-void Console::IntField::OnKeyPress(Controller* controller, const char key)
+void Console::IntField::OnKeyPress(const char key)
 {
-	BasicField::OnKeyPress(controller, key);
+	BasicField::OnKeyPress(key);
 
 	if (_str.length() > 1 && _str.starts_with("0"))
 	{

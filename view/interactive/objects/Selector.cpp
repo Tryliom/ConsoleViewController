@@ -11,7 +11,7 @@ namespace Console
 		_selected = defaultSelected;
 	}
 
-	void Selector::Draw(Controller* controller, Screen& screen, const bool selected)
+	void Selector::Draw(Screen& screen, const bool selected)
 	{
 		Background background = _background;
 		Foreground foreground = _foreground;
@@ -44,7 +44,7 @@ namespace Console
 		}
 	}
 
-	void Selector::OnKeyPress(Controller* controller, const char key)
+	void Selector::OnKeyPress(const char key)
 	{
 		if (key == Key::Left)
 		{

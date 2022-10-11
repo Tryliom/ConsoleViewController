@@ -57,12 +57,12 @@ namespace Console
 		}
 	}
 
-	void Controller::onTick()
+	void Controller::onTick(const int deltaTime)
 	{
 		// If the view is not null, call the view's OnTick method
 		if (this->_view != nullptr)
 		{
-			this->_view->OnTick(this);
+			this->_view->OnTick(this, deltaTime);
 		}
 	}
 
@@ -77,19 +77,10 @@ namespace Console
 	{
 		std::thread renderThread([this]()
 			{
-				auto nextFrame = std::chrono::steady_clock::now();
-
 				while (true)
 				{
-					nextFrame += std::chrono::milliseconds(1000 / MAX_FPS);
-
 					this->refresh();
 					_fpsCounter++;
-
-					if (LIMIT_FPS)
-					{
-						std::this_thread::sleep_until(nextFrame);
-					}
 				}
 			}
 		);
@@ -110,16 +101,15 @@ namespace Console
 
 		std::thread tickThread([this]()
 			{
-				auto nextFrame = std::chrono::steady_clock::now();
+				auto now = std::chrono::steady_clock::now();
 
 				while (true)
 				{
-					nextFrame += std::chrono::milliseconds(50);
+					auto deltaTime = std::chrono::steady_clock::now() - now;
+					now = std::chrono::steady_clock::now();
 
-					this->onTick();
+					this->onTick(deltaTime.count());
 					TICK++;
-
-					std::this_thread::sleep_until(nextFrame);
 				}
 			}
 		);
