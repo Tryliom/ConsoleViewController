@@ -9,7 +9,7 @@ namespace Console
 	void Controller::GoBack()
 	{
 		this->_view = this->_views.top();
-		this->_view->OnOpenView(this);
+		this->_view->OnOpenView();
 		this->_views.pop();
 	}
 
@@ -23,7 +23,7 @@ namespace Console
 		// Update the view
 		if (this->_view != nullptr)
 		{
-			this->_view->Update(this, this->_screen);
+			this->_view->Update(this->_screen);
 		}
 
 		for (auto& func : this->_queue)
@@ -39,7 +39,7 @@ namespace Console
 		// If the view is not null, call the view's onKeyPressed method
 		if (this->_view != nullptr)
 		{
-			this->_view->OnKeyPressed(this, key);
+			this->_view->OnKeyPressed(key);
 		}
 
 		// If the key is Escape, exit the program or go back to the last view
@@ -62,7 +62,7 @@ namespace Console
 		// If the view is not null, call the view's OnTick method
 		if (this->_view != nullptr)
 		{
-			this->_view->OnTick(this, deltaTime);
+			this->_view->OnTick(deltaTime);
 		}
 	}
 
@@ -108,7 +108,7 @@ namespace Console
 					auto deltaTime = std::chrono::steady_clock::now() - now;
 					now = std::chrono::steady_clock::now();
 
-					this->onTick(deltaTime.count());
+					this->onTick(static_cast<int>(deltaTime.count()));
 					TICK++;
 				}
 			}

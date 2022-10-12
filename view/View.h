@@ -1,6 +1,5 @@
 #pragma once
 #include "Screen.h"
-#include "../controller/Controller.h"
 #include "interactive/InteractiveObject.h"
 
 namespace Console
@@ -18,29 +17,26 @@ namespace Console
 		void addComponent(InteractiveObject* component) { _components.push_back(component); }
 	public:
 		View(int defaultButton = 0);
+
 		/**
 		 * \brief Call before the render function to prepare the screen
-		 * \param controller The controller to get the data from
 		 * \param screen The screen to draw on
 		 */
-		virtual void Update(Controller* controller, Screen& screen);
+		virtual void Update(Screen& screen);
 		/**
 		 * \brief Call when the user press a key, need to be call at the end of the Update function to correct the button selection
-		 * \param controller The controller to get the data from
 		 * \param key The key pressed
 		 */
-		virtual void OnKeyPressed(Controller* controller, char key);
+		virtual void OnKeyPressed(char key);
 		/**
 		 * \brief Called every 50ms
-		 * \param controller The controller to get the data from
 		 * \param deltaTime The time since the last tick in nanoseconds
 		 */
-		virtual void OnTick(Controller* controller, int deltaTime) {}
+		virtual void OnTick(int deltaTime) {}
 		/**
 		 * \brief Called when the view is set in the controller
-		 * \param controller The controller to get the data from
 		 */
-		virtual void OnOpenView(Controller* controller) {}
+		virtual void OnOpenView() {}
 
 		int GetMaxButton() const { return static_cast<int>(_components.size()); }
 		void SetCurrentButton(const int currentButton) { if (currentButton >= 0) _currentButton = currentButton; }

@@ -7,7 +7,7 @@ namespace Console
 		_currentButton = defaultButton;
 	}
 
-	void View::Update(Controller* controller, Screen& screen)
+	void View::Update(Screen& screen)
 	{
 		for (const auto& component : _components)
 		{
@@ -15,7 +15,7 @@ namespace Console
 		}
 	}
 
-	void View::OnKeyPressed(Controller* controller, const char key)
+	void View::OnKeyPressed(const char key)
 	{
 		const int maxButtons = GetMaxButton();
 
