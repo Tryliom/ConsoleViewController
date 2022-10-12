@@ -33,10 +33,6 @@ namespace Console
 		 * \param deltaTime The time since the last tick in nanoseconds
 		 */
 		virtual void OnTick(int deltaTime) {}
-		/**
-		 * \brief Called when the view is set in the controller
-		 */
-		virtual void OnOpenView() {}
 
 		int GetMaxButton() const { return static_cast<int>(_components.size()); }
 		void SetCurrentButton(const int currentButton) { if (currentButton >= 0) _currentButton = currentButton; }
