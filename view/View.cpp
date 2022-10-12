@@ -17,7 +17,7 @@ namespace Console
 
 	void View::OnKeyPressed(const char key)
 	{
-		const int maxButtons = GetMaxButton();
+		const int maxButtons = getMaxButton();
 
 		if (maxButtons == 0)
 			return;
