@@ -9,7 +9,6 @@ namespace Console
 	void Controller::GoBack()
 	{
 		this->_view = this->_views.top();
-		this->_view->OnOpenView();
 		this->_views.pop();
 	}
 
