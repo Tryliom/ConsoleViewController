@@ -12,6 +12,8 @@
 #include "view/Image.h"
 #include "utilities/Utility.h"
 #include "controller/AudioManager.h"
+#include "utilities/Random.h"
+#include "utilities/Utility.h"
 
 namespace Console
 {
