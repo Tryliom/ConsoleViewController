@@ -102,7 +102,7 @@ namespace Console
 			TICK++;
 			_fpsCounter++;
 
-			if (time >= 1000000)
+			if (time >= 1000000000)
 			{
 				time = 0;
 				FPS = _fpsCounter;
