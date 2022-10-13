@@ -13,7 +13,6 @@ namespace Console
 	{
 	protected:
 		Screen _screen;
-		bool _canPressKey{ true };
 		// The current view
 		View* _view{ nullptr };
 		// The previous views
@@ -26,10 +25,6 @@ namespace Console
 		 * \brief Refresh screen rendering
 		 */
 		void refresh();
-		/**
-		 * \brief Start a thread to update the screen
-		 */
-		void startRenderingThread();
 		/**
 		 * \brief Used to draw things on the screen before rendering
 		 */

@@ -72,60 +72,42 @@ namespace Console
 		_screen.Render();
 	}
 
-	void Controller::startRenderingThread()
-	{
-		std::thread renderThread([this]()
-			{
-				while (true)
-				{
-					this->refresh();
-					_fpsCounter++;
-				}
-			}
-		);
-		renderThread.detach();
-
-		std::thread fpsThread([this]()
-			{
-				while (true)
-				{
-					Utility::sleep(1000);
-					FPS = _fpsCounter;
-					_fpsCounter = 0;
-					TICK = 0;
-				}
-			}
-		);
-		fpsThread.detach();
-
-		std::thread tickThread([this]()
-			{
-				auto now = std::chrono::steady_clock::now();
-
-				while (true)
-				{
-					auto deltaTime = std::chrono::steady_clock::now() - now;
-					now = std::chrono::steady_clock::now();
-
-					this->onTick(static_cast<int>(deltaTime.count()));
-					TICK++;
-				}
-			}
-		);
-		tickThread.detach();
-	}
-
 	void Controller::Start()
 	{
-		startRenderingThread();
+		// Start a thread to receive key presses
+		std::thread keyThread([this]()
+			{
+				// Get every key pressed
+				while (const char key = static_cast<char>(_getch()))
+				{
+					this->onKeyPressed(key);
+				}
+			}
+		);
+		keyThread.detach();
 
-		// Get every key pressed
-		while (const char key = static_cast<char>(_getch()))
+		auto now = std::chrono::steady_clock::now();
+		int time = 0;
+
+		while (true)
 		{
-			if (_canPressKey) {
-				_canPressKey = false;
-				this->onKeyPressed(key);
-				_canPressKey = true;
+			// Get the time difference between now and the last tick
+			const auto deltaTime = static_cast<int>((std::chrono::steady_clock::now() - now).count());
+			now = std::chrono::steady_clock::now();
+
+			this->onTick(deltaTime);
+			this->refresh();
+
+			time += deltaTime;
+			TICK++;
+			_fpsCounter++;
+
+			if (time >= 1000000)
+			{
+				time = 0;
+				FPS = _fpsCounter;
+				_fpsCounter = 0;
+				TICK = 0;
 			}
 		}
 	}
