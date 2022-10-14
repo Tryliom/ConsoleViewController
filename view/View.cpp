@@ -79,20 +79,20 @@ namespace Console
 
 					if (isHorizontal)
 					{
-						if (aDistanceX == bDistanceX)
+						if (aDistanceY == bDistanceY)
 						{
-							return aDistanceY < bDistanceY;
+							return aDistanceX < bDistanceX;
 						}
 						
-						return aDistanceX < bDistanceX;
+						return aDistanceY < bDistanceY;
 					}
 
-					if (aDistanceY == bDistanceY)
+					if (aDistanceX == bDistanceX)
 					{
-						return aDistanceX < bDistanceX;
+						return aDistanceY < bDistanceY;
 					}
 
-					return aDistanceY < bDistanceY;
+					return aDistanceX < bDistanceX;
 				}
 		);
 
