@@ -1,10 +1,7 @@
 #pragma once
-#include <functional>
-
 #include "Position.h"
 #include "../Screen.h"
 #include "../../Constants.h"
-#include "../../controller/Controller.h"
 
 namespace Console
 {
@@ -26,6 +23,9 @@ namespace Console
 
 		virtual void Draw(Screen& screen, bool selected) = 0;
 		virtual void OnKeyPress(const char key) = 0;
+
+		PositionX GetX() const { return _x; }
+		PositionY GetY() const { return _y; }
 	};
 
 

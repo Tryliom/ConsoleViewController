@@ -12,6 +12,10 @@ namespace Console
 	private:
 		int _currentButton{ 0 };
 		std::vector<InteractiveObject*> _components;
+
+		// Search the nearest component in the given direction
+		void move(bool isHorizontal, bool isPositive);
+
 	protected:
 		void setComponents(const std::vector<InteractiveObject*>& components) { _components = components; }
 		void addComponent(InteractiveObject* component) { _components.push_back(component); }
@@ -27,6 +31,15 @@ namespace Console
 		template<class T>
 		T* getComponent(const int index) const { return dynamic_cast<T*>(_components[index]); }
 		void clearComponents() { _components.clear(); }
+
+		/**
+		 * \brief Used to move to the next button according to the position of the current button
+		 * and the direction taken by the user. Need to be called in the OnKeyPressed method.
+		 * \param key The key pressed by the user
+		 * \param horizontal If enabled, the user can move horizontally (left and right)
+		 * \param vertical If enabled, the user can move vertically (up and down)
+		 */
+		void moveBetweenComponents(char key, bool horizontal = true, bool vertical = true);
 
 	public:
 		View(int defaultButton = 0);
