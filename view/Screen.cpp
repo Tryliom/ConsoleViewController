@@ -164,8 +164,8 @@ namespace Console
 			{
 				for (auto i = _pixelColorsMapCache.begin(); i != _pixelColorsMapCache.end();)
 				{
-					if ((i->first.Y >= PositionY(h - 1).GetValue(true) && i->first.X >= PositionX(minW - 1).GetValue(true))
-						|| (i->first.Y <= PositionY(h + 1).GetValue(true) && i->first.X <= PositionX(maxW + 2).GetValue(true)))
+					if ((i->first.Y >= PositionY(h - 2).GetValue(true) && i->first.X >= PositionX(minW - 2).GetValue(true))
+						|| (i->first.Y <= PositionY(h + 2).GetValue(true) && i->first.X <= PositionX(maxW + 2).GetValue(true)))
 					{
 						i->second.Color = DEFAULT_BACKGROUND_COLOR;
 					}
