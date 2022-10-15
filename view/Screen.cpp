@@ -130,10 +130,16 @@ namespace Console
 
 	void Screen::Render()
 	{
+		const HWND console = GetConsoleWindow();
+		const HDC hdc = GetDC(console);
+
 		// Display every lines of the screen
 		for (int h = 0; h < HEIGHT; h++)
 		{
 			bool hasDraw = false;
+			int minW = 0;
+			int maxW = 0;
+
 			for (int w = 0; w < WIDTH; w++)
 			{
 				// If the cache has a different size than the screen, display the whole screen, otherwise only the differences between the cache and the screen
@@ -141,7 +147,15 @@ namespace Console
 				{
 					this->setPos(w, h);
 					std::cout << _screen[h][w];
-					hasDraw = true;
+					if (!hasDraw)
+					{
+						minW = w;
+						hasDraw = true;
+					}
+					else
+					{
+						maxW = w;
+					}
 				}
 			}
 
@@ -150,20 +164,16 @@ namespace Console
 			{
 				for (auto i = _pixelColorsMapCache.begin(); i != _pixelColorsMapCache.end();)
 				{
-					if (i->first.Y >= PositionY(h).GetValue(true) && i->first.Y <= PositionY(h + 1).GetValue(true))
+					if ((i->first.Y >= PositionY(h).GetValue(true) && (i->first.X >= PositionX(minW).GetValue(true)))
+						|| (i->first.Y <= PositionY(h).GetValue(true) && i->first.X <= PositionX(maxW).GetValue(true)))
 					{
-						i = _pixelColorsMapCache.erase(i);
+						i->second.Color = DEFAULT_BACKGROUND_COLOR;
 					}
-					else
-					{
-						++i;
-					}
+
+					++i;
 				}
 			}
 		}
-
-		const HWND myconsole = GetConsoleWindow();
-		const HDC mydc = GetDC(myconsole);
 
 		// Doesn't display pixels that are already displayed on the screen
 		for (const auto& key : _pixelColorsMapCache | std::views::keys)
@@ -186,7 +196,7 @@ namespace Console
 		{
 			if (value.Display)
 			{
-				SetPixel(mydc, value.X, value.Y, value.Color);
+				SetPixel(hdc, value.X, value.Y, value.Color);
 			}
 			else
 			{
@@ -200,6 +210,8 @@ namespace Console
 			setCursorVisibility(true);
 			this->setPos(_cursorX, _cursorY);
 		}
+
+		ReleaseDC(console, hdc);
 	}
 
 	void Screen::Draw(Text text)
