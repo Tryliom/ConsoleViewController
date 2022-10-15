@@ -5,6 +5,8 @@
 #include <thread>
 #include <windows.h>
 
+#include "interactive/Position.h"
+
 constexpr COLORREF DEFAULT_BACKGROUND_COLOR = RGB(12, 12, 12);
 
 namespace Console
@@ -131,6 +133,7 @@ namespace Console
 		// Display every lines of the screen
 		for (int h = 0; h < HEIGHT; h++)
 		{
+			bool hasDraw = false;
 			for (int w = 0; w < WIDTH; w++)
 			{
 				// If the cache has a different size than the screen, display the whole screen, otherwise only the differences between the cache and the screen
@@ -138,6 +141,23 @@ namespace Console
 				{
 					this->setPos(w, h);
 					std::cout << _screen[h][w];
+					hasDraw = true;
+				}
+			}
+
+			// If the line has been drawn, remove the line from the pixel cache
+			if (hasDraw)
+			{
+				for (auto i = _pixelColorsMapCache.begin(); i != _pixelColorsMapCache.end();)
+				{
+					if (i->first.Y >= PositionY(h).GetValue(true) && i->first.Y <= PositionY(h + 1).GetValue(true))
+					{
+						i = _pixelColorsMapCache.erase(i);
+					}
+					else
+					{
+						++i;
+					}
 				}
 			}
 		}
